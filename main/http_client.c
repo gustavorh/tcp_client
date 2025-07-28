@@ -165,6 +165,15 @@ char* http_client_create_json(const sensor_data_t *data)
     }
     cJSON_AddItemToObject(json, JSON_FIELD_UPTIME, uptime_item);
     
+    // Add device ID
+    cJSON *device_id_item = cJSON_CreateString("esp32-s3");
+    if (device_id_item == NULL) {
+        ESP_LOGE(TAG, "Failed to create device_id JSON item");
+        cJSON_Delete(json);
+        return NULL;
+    }
+    cJSON_AddItemToObject(json, JSON_FIELD_DEVICE_ID, device_id_item);
+    
     // Convert JSON object to string
     char *json_string = cJSON_Print(json);
     if (json_string == NULL) {
